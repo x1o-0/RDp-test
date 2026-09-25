@@ -3,11 +3,21 @@ name: Windows Test
 on:
   workflow_dispatch:
 
+permissions:
+  id-token: write
+
 jobs:
   test:
     runs-on: windows-latest
 
     steps:
+      - name: Tailscale
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          audience: ${{ secrets.TS_AUDIENCE }}
+          tags: tag:ci
+
       - name: Keep runner alive
         shell: powershell
         run: |
