@@ -21,6 +21,11 @@ jobs:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           audience: ${{ secrets.TS_AUDIENCE }}
           tags: tag:ci
+      - name: Check RDP
+        shell: powershell
+        run: |
+          Get-Service TermService
+          Get-NetTCPConnection -LocalPort 3389 -ErrorAction SilentlyContinue
 
       - name: Keep runner alive
         shell: powershell
