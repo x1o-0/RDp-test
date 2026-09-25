@@ -32,6 +32,12 @@ jobs:
         shell: powershell
         run: |
           Get-LocalUser | Select-Object Name, Enabled
+
+      - name: Check RDP permissions
+        shell: powershell
+        run: |
+          Get-LocalGroupMember -Group "Remote Desktop Users" -ErrorAction SilentlyContinue
+          Get-LocalGroupMember -Group "Administrators" | Where-Object {$_.Name -match "runneradmin"}
           
       - name: Keep runner alive
         shell: powershell
