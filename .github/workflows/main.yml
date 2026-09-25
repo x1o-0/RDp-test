@@ -38,6 +38,12 @@ jobs:
         run: |
           Get-LocalGroupMember -Group "Remote Desktop Users" -ErrorAction SilentlyContinue
           Get-LocalGroupMember -Group "Administrators" | Where-Object {$_.Name -match "runneradmin"}
+
+      - name: Check RDP firewall
+        shell: powershell
+        run: |
+          Get-NetFirewallRule -DisplayGroup "Remote Desktop" |
+            Select-Object DisplayName, Enabled, Direction, Action
           
       - name: Keep runner alive
         shell: powershell
